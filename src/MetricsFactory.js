@@ -2,6 +2,7 @@
 
 import type {
   AsyncPullGauge,
+  CollectorRegistry,
   Counter,
   Gauge,
   MetricOpts,
@@ -13,19 +14,19 @@ import type {
   SimplePullGauge
 } from './types.js';
 
-import CollectorRegistry from './CollectorRegistry.js';
+import AsyncPullGaugeImpl from './AsyncPullGauge.js';
 import CounterImpl from './Counter.js';
 import GaugeImpl from './Gauge.js';
 import PullGaugeImpl from './PullGauge.js';
-import AsyncPullGaugeImpl from './AsyncPullGauge.js';
+import TextFormat from './TextFormat.js';
 
-class Metrics {
+class MetricsFactory {
   registeredNames: Set<string>;
   registry: CollectorRegistry;
 
-  constructor() {
+  constructor(registry: CollectorRegistry) {
     this.registeredNames = new Set();
-    this.registry = new CollectorRegistry();
+    this.registry = registry;
   }
 
   createMetric<T>(
@@ -103,4 +104,4 @@ class Metrics {
   }
 }
 
-export default Metrics;
+export default MetricsFactory;
