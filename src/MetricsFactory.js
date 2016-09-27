@@ -17,43 +17,23 @@ import type {
   SimplePullGauge
 } from './types.js';
 
+import CollectorRegistry from './CollectorRegistry.js';
 import CounterImpl from './Counter.js';
+import GaugeImpl from './Gauge.js';
 
 class Metrics {
   registeredNames: Set<string>;
-  collectors: Array<Collector>;
-  asyncCollectors: Array<AsyncCollector>;
+  registry: CollectorRegistry;
 
   constructor() {
     this.registeredNames = new Set();
-    this.collectors = [];
-    this.asyncCollectors = []
-  }
-
-  // TODO handle errors while collecting
-  async collect(): Promise<Array<Metric>> {
-    let result = [];
-
-    for (const collector of this.collectors) {
-      result = result.concat(collector.collect());
-    }
-
-    const asyncMetrics = await Promise.all(
-      this.asyncCollectors.map(
-        collector => collector.collect()
-      )
-    );
-
-    for (const batch of asyncMetrics) {
-      result = result.concat(batch);
-    }
-
-    return result;
+    this.registry = new CollectorRegistry();
   }
 
   createMetric<T>(
     opts: MetricOpts,
-    factory: (name: string, help: string, labels: Array<string>) => T
+    factory: (name: string, help: string, labels: Array<string>) => T,
+    register: (metric: T) => void
   ): T {
     const { name, help, labels = [] } = opts;
 
@@ -65,13 +45,18 @@ class Metrics {
 
     const sortedLabels = labels.slice().sort();
 
-    return factory(name, help, sortedLabels);
+    const metric = factory(name, help, sortedLabels);
+
+    register(metric);
+
+    return metric;
   }
 
   createCounter(opts: MetricOpts): Counter<*> {
     return this.createMetric(
       opts,
-      (name, help, labels) => new CounterImpl(name, help, labels)
+      (name, help, labels) => new CounterImpl(name, help, labels),
+      (metric) => this.registry.register(metric)
     );
   }
 
@@ -81,11 +66,16 @@ class Metrics {
   }
 
   createGauge(opts: MetricOpts): Gauge<*> {
-    throw new Error('TODO');
+    return this.createMetric(
+      opts,
+      (name, help, labels) => new GaugeImpl(name, help, labels),
+      (metric) => this.registry.register(metric)
+    );
   }
 
   createSimpleGauge(opts: MetricOptsWithoutLabels): SimpleGauge {
-    throw new Error('TODO');
+    const { name, help } = opts;
+    return this.createGauge({ name, help }).withLabels({});
   }
 
   createPullGauge(opts: MetricOpts): PullGauge<*> {

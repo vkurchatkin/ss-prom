@@ -15,7 +15,8 @@ class GaugeTests {
     const g: GaugeT<{}> = impl;
 
     g.set({}, 4);
-    g.set({}, 42);
+    g.inc({}, 39);
+    g.dec({});
 
     const result = impl.collect();
 

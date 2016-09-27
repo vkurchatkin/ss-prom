@@ -109,6 +109,11 @@ export type MetricOpts = {
   labels?: Array<string>
 };
 
+export interface Format {
+  mimeType: string,
+  encode(metrics: Array<Metric>): string
+}
+
 /// A factory to create and register metrics
 export interface MetricsFactory {
   createCounter(opts: MetricOpts): Counter<*>,

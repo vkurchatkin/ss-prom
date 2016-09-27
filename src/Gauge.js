@@ -1,89 +1,37 @@
 /* @flow */
 
 import type {
-  Metric,
-  Sample,
-  SimpleGauge,
-  AnyLabels,
-  Child
+  AnyLabels
 } from './types.js';
 
-import {
-  createLabelsHash,
-  createLabelValues
-} from './util.js';
-
+import PushParentMetric from './PushParentMetric.js';
 import SimpleGaugeImpl from './SimpleGauge.js';
 
-class Gauge {
-  name: string;
-  help: string;
-  labelNames: Array<string>;
-  children: Array<Child<SimpleGaugeImpl>>;
-  childrenByHash: { [hash: string]: ?Child<SimpleGaugeImpl> };
-
+class Gauge extends PushParentMetric<SimpleGaugeImpl> {
   constructor(
     name: string,
     help: string,
     labels: Array<string>
   ) {
-    this.name = name;
-    this.help = help;
-    this.labelNames = labels;
-    this.children = [];
-    this.childrenByHash = {};
+    super(
+      name,
+      help,
+      'Gauge',
+      labels,
+      () => new SimpleGaugeImpl()
+    );
   }
 
-  withLabels(labels: AnyLabels): SimpleGauge {
-    const labelValues = createLabelValues(this.labelNames, labels);
-    const hash = createLabelsHash(this.labelNames, labelValues);
-
-    let child = this.childrenByHash[hash];
-
-    if (child) {
-      return child.obj;
-    }
-
-    const obj = new SimpleGaugeImpl();
-
-    child = {
-      labelValues,
-      obj
-    };
-
-    this.childrenByHash[hash] = child;
-    this.children.push(child);
-    return obj;
+  inc(labels: AnyLabels, val?: number) {
+    this.withLabels(labels).inc(val);
   }
 
-  set(labels: AnyLabels, value: number): void {
-    this.withLabels(labels).set(value);
+  dec(labels: AnyLabels, val?: number) {
+    this.withLabels(labels).dec(val);
   }
 
-  inc(labels: AnyLabels, value?: number): void {
-    this.withLabels(labels).inc(value);
-  }
-
-  dec(labels: AnyLabels, value?: number): void {
-    this.withLabels(labels).dec(value);
-  }
-
-  collect(): Array<Metric> {
-    const { name, help, labelNames } = this;
-
-    return [
-      {
-        name,
-        help,
-        type: 'Gauge',
-        samples: this.children.map(({ labelValues, obj })=> ({
-          name,
-          value: obj.val,
-          labelNames,
-          labelValues
-        }))
-      }
-    ];
+  set(labels: AnyLabels, val: number) {
+    this.withLabels(labels).set(val);
   }
 }
 

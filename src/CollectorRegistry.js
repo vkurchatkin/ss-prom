@@ -39,6 +39,7 @@ class CollectoryRegistry {
     }
   }
 
+  // TODO handle errors while collecting
   async collect(): Promise<Array<Metric>> {
     let result = [];
 
