@@ -1289,6 +1289,7 @@ declare module "assert" {
 
 declare class Process extends events$EventEmitter {
   abort() : void;
+  cpuUsage() : { user: number, system: number };
   arch : string;
   argv : Array<string>;
   chdir(directory : string) : void;
