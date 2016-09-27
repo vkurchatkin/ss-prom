@@ -38,7 +38,7 @@ export interface AsyncCollector {
   collect(): Promise<Array<Metric>>
 }
 
-export interface CollectorRegistry {
+export interface CollectorRegistry extends AsyncCollector {
   register(collector: Collector): void;
   unregister(collector: Collector): void;
   registerAsync(collector: AsyncCollector): void;
@@ -116,6 +116,8 @@ export interface Format {
 
 // A factory to create and register metrics
 export interface MetricsFactory {
+  collector: AsyncCollector;
+
   createCounter(opts: MetricOpts): Counter<*>,
   createSimpleCounter(opts: MetricOptsWithoutLabels): SimpleCounter,
 

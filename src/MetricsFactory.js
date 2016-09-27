@@ -1,6 +1,7 @@
  /* @flow */
 
 import type {
+  AsyncCollector,
   AsyncPullGauge,
   CollectorRegistry,
   Counter,
@@ -23,10 +24,12 @@ import TextFormat from './TextFormat.js';
 class MetricsFactory {
   registeredNames: Set<string>;
   registry: CollectorRegistry;
+  collector: AsyncCollector;
 
   constructor(registry: CollectorRegistry) {
     this.registeredNames = new Set();
     this.registry = registry;
+    this.collector = registry;
   }
 
   createMetric<T>(

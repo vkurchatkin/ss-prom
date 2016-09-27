@@ -15,7 +15,7 @@ function labelsToString(labelNames: Array<string>, labelValues: Array<string>): 
     const name = labelNames[i];
     const value = labelValues[i];
 
-    result += `${name}=${value}`;
+    result += `${name}="${value}"`;
 
     if (i !== labelNames.length - 1) {
       result += ',';
@@ -36,20 +36,21 @@ class TextFormat {
 
   encode(metrics: Array<Metric>): string {
     let str = '';
+
     for (const metric of metrics) {
-      const { help, name, type } = metric;
+      const { help, name, type, samples } = metric;
 
-      if (help) {
-        str += `# HELP ${name} ${help}\n`;
-      }
+      if (samples.length > 0){
+        if (help) {
+          str += `# HELP ${name} ${help}\n`;
+        }
 
-      str += `# TYPE ${name} ${type.toLowerCase()}\n`;
+        str += `# TYPE ${name} ${type.toLowerCase()}\n`;
 
-      const samples = metric.samples;
-
-      for (const sample of samples) {
-        const { name, value, labelNames, labelValues } = sample;
-        str += `${name}${labelsToString(labelNames, labelValues)} ${value}\n`;
+        for (const sample of samples) {
+          const { name, value, labelNames, labelValues } = sample;
+          str += `${name}${labelsToString(labelNames, labelValues)} ${value}\n`;
+        }
       }
     }
 

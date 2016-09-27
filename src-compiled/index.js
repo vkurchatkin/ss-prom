@@ -3,15 +3,35 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.createMetrics = createMetrics;
+exports.createTextFormat = createTextFormat;
 
-let foo = exports.foo = (() => {
-  var _ref = _asyncToGenerator(function* () {
-    return 'bar';
-  });
+var _CollectorRegistry = require('./CollectorRegistry.js');
 
-  return function foo() {
-    return _ref.apply(this, arguments);
-  };
-})();
+var _CollectorRegistry2 = _interopRequireDefault(_CollectorRegistry);
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+var _MetricsFactory = require('./MetricsFactory.js');
+
+var _MetricsFactory2 = _interopRequireDefault(_MetricsFactory);
+
+var _StandardCollector = require('./StandardCollector.js');
+
+var _StandardCollector2 = _interopRequireDefault(_StandardCollector);
+
+var _TextFormat = require('./TextFormat.js');
+
+var _TextFormat2 = _interopRequireDefault(_TextFormat);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createMetrics() {
+  const registry = new _CollectorRegistry2.default();
+  const standardCollector = new _StandardCollector2.default();
+  registry.register(standardCollector);
+  const factory = new _MetricsFactory2.default(registry);
+  return factory;
+}
+
+function createTextFormat() {
+  return new _TextFormat2.default();
+}

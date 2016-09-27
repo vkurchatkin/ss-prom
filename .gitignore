@@ -1,4 +1,5 @@
 node_modules
+src-compiled
 src-compiled-cover
 src-compiled-test
 babel-helpers.js
