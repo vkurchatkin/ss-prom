@@ -17,14 +17,14 @@ import SimpleGaugeImpl from './SimpleGauge.js';
 
 class Gauge {
   name: string;
-  help: ?string;
+  help: string;
   labelNames: Array<string>;
   children: Array<Child<SimpleGaugeImpl>>;
   childrenByHash: { [hash: string]: ?Child<SimpleGaugeImpl> };
 
   constructor(
     name: string,
-    help: ?string,
+    help: string,
     labels: Array<string>
   ) {
     this.name = name;
@@ -58,6 +58,14 @@ class Gauge {
 
   set(labels: AnyLabels, value: number): void {
     this.withLabels(labels).set(value);
+  }
+
+  inc(labels: AnyLabels, value?: number): void {
+    this.withLabels(labels).inc(value);
+  }
+
+  dec(labels: AnyLabels, value?: number): void {
+    this.withLabels(labels).dec(value);
   }
 
   collect(): Array<Metric> {

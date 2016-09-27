@@ -53,7 +53,7 @@ class Metrics {
 
   createMetric<T>(
     opts: MetricOpts,
-    factory: (name: string, help: ?string, labels: Array<string>) => T
+    factory: (name: string, help: string, labels: Array<string>) => T
   ): T {
     const { name, help, labels = [] } = opts;
 

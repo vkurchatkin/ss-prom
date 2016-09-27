@@ -17,14 +17,14 @@ import SimpleCounterImpl from './SimpleCounter.js';
 
 class Counter {
   name: string;
-  help: ?string;
+  help: string;
   labelNames: Array<string>;
   children: Array<Child<SimpleCounterImpl>>;
   childrenByHash: { [hash: string]: ?Child<SimpleCounterImpl> };
 
   constructor(
     name: string,
-    help: ?string,
+    help: string,
     labels: Array<string>
   ) {
     this.name = name;

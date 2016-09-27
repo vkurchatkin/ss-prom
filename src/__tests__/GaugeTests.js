@@ -7,7 +7,7 @@ import Gauge from '../Gauge.js';
 
 class GaugeTests {
   testGaugeType() {
-
+    // TODO
   }
 
   testSimple() {

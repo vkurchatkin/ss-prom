@@ -1,15 +1,15 @@
 /* @flow */
 
 import type {
-  Metrics
+  MetricsFactory
 } from './types.js';
 
 import MetricsImpl from './Metrics.js';
 
-export function createMetrics(): Metrics {
+export function createMetricsFactory(): MetricsFactory {
   return new MetricsImpl();
 }
 
 export type {
-  Metrics
+  MetricsFactory
 }

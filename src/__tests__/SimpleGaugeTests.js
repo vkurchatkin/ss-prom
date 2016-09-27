@@ -10,7 +10,7 @@ class SimpleGaugeTests {
     const impl = new SimpleGauge();
     const iface: SimpleGaugeT = impl;
 
-    assert(isNaN(impl.val));
+    assert.equal(impl.val, 0);
     iface.set(42)
     assert.equal(impl.val, 42);
   }

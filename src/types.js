@@ -20,7 +20,7 @@ export type Sample = {
 
 export type Metric = {
   name: string,
-  help: ?string,
+  help: string,
   type: MetricType,
   samples: Array<Sample>
 }
@@ -36,6 +36,13 @@ export interface Collector {
 
 export interface AsyncCollector {
   collect(): Promise<Array<Metric>>
+}
+
+export interface CollectorRegistry {
+  register(collector: Collector): void;
+  unregister(collector: Collector): void;
+  registerAsync(collector: AsyncCollector): void;
+  unregisterAsync(collector: AsyncCollector): void;
 }
 
 /// Metric that has labeled children
@@ -55,7 +62,9 @@ export interface Counter<T: AnyLabels> extends ParentMetric<T, SimpleCounter> {
 
 /// Push gauge with no labels
 export interface SimpleGauge {
-  set(value: number): void
+  set(value: number): void,
+  inc(val?: number): void,
+  dec(val?: number): void
 }
 
 /// Pull gauge with no labels
@@ -72,7 +81,9 @@ export interface SimpleAsyncPullGauge {
 
 /// Push gauge with children
 export interface Gauge<T> extends ParentMetric<T, SimpleGauge> {
-  set(labels: T, value: number): void
+  set(labels: T, value: number): void,
+  inc(labels: T, val?: number): void,
+  dec(labels: T, val?: number): void
 }
 
 /// Pull gauge with children
@@ -89,17 +100,17 @@ export interface AsyncPullGauge<T> extends ParentMetric<T, SimpleAsyncPullGauge>
 
 export type MetricOptsWithoutLabels = {
   name: string,
-  help?: string
+  help: string
 };
 
 export type MetricOpts = {
   name: string,
-  help?: string,
+  help: string,
   labels?: Array<string>
 };
 
 /// A factory to create and register metrics
-export interface Metrics {
+export interface MetricsFactory {
   createCounter(opts: MetricOpts): Counter<*>,
   createSimpleCounter(opts: MetricOptsWithoutLabels): SimpleCounter,
 
