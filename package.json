@@ -1,0 +1,13 @@
+{
+  "name": "ss-prom",
+  "version": "1.0.0",
+  "description": "Simple Prometheus client",
+  "main": "index.js",
+  "private": true,
+  "allowPublish": true,
+  "author": "Vladimir Kurchatkin <vladimir.kurchatkin@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "make test"
+  }
+}
