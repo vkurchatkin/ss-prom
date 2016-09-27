@@ -11,7 +11,7 @@ class SimpleGaugeTests {
     const iface: SimpleGaugeT = impl;
 
     assert.equal(impl.val, 0);
-    iface.set(42)
+    iface.set(42);
     assert.equal(impl.val, 42);
     iface.inc();
     assert.equal(impl.val, 43);

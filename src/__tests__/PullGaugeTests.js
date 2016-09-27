@@ -6,11 +6,7 @@ import type { PullGauge as PullGaugeT } from '../types.js';
 import PullGauge from '../PullGauge.js';
 
 class PullGaugeTests {
-  testPullGaugeType() {
-    // TODO
-  }
-
-   testSimple() {
+  testSimple() {
     const impl = new PullGauge('foo', 'Foo PullGauge', []);
     const g: PullGaugeT<{}> = impl;
 
@@ -35,7 +31,7 @@ class PullGaugeTests {
     ]);
   }
 
-   testSimpleChild() {
+  testSimpleChild() {
     const impl = new PullGauge('foo', 'Foo PullGauge', []);
     const g = impl.withLabels({});
 
@@ -60,12 +56,12 @@ class PullGaugeTests {
     ]);
   }
 
-   testChildren() {
+  testChildren() {
     const impl = new PullGauge('foo', 'Foo PullGauge', ['foo']);
     const g: PullGaugeT<{ foo: string }> = impl;
 
-    g.withLabels({ foo: 'bar' }).setCallback( () => 3);
-    g.withLabels({ foo: 'baz' }).setCallback( () => 39);
+    g.withLabels({ foo: 'bar' }).setCallback(() => 3);
+    g.withLabels({ foo: 'baz' }).setCallback(() => 39);
 
     const result = impl.collect();
 
@@ -92,7 +88,7 @@ class PullGaugeTests {
     ]);
   }
 
-   testResetAllCallbacks() {
+  testResetAllCallbacks() {
     const impl = new PullGauge('foo', 'Foo PullGauge', ['foo']);
     const g: PullGaugeT<{ foo: string }> = impl;
 

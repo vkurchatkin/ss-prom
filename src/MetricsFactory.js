@@ -1,15 +1,11 @@
  /* @flow */
 
 import type {
-  AsyncCollector,
   AsyncPullGauge,
-  Collector,
   Counter,
   Gauge,
-  Metric,
   MetricOpts,
   MetricOptsWithoutLabels,
-  MetricType,
   PullGauge,
   SimpleAsyncPullGauge,
   SimpleCounter,
@@ -20,6 +16,8 @@ import type {
 import CollectorRegistry from './CollectorRegistry.js';
 import CounterImpl from './Counter.js';
 import GaugeImpl from './Gauge.js';
+import PullGaugeImpl from './PullGauge.js';
+import AsyncPullGaugeImpl from './AsyncPullGauge.js';
 
 class Metrics {
   registeredNames: Set<string>;
@@ -79,19 +77,29 @@ class Metrics {
   }
 
   createPullGauge(opts: MetricOpts): PullGauge<*> {
-    throw new Error('TODO');
+    return this.createMetric(
+      opts,
+      (name, help, labels) => new PullGaugeImpl(name, help, labels),
+      (metric) => this.registry.register(metric)
+    );
   }
 
   createSimplePullGauge(opts: MetricOptsWithoutLabels): SimplePullGauge {
-    throw new Error('TODO');
+    const { name, help } = opts;
+    return this.createPullGauge({ name, help }).withLabels({});
   }
 
-  createAsyncPullGauge(opts: MetricOpts): AsyncPullGauge<*>  {
-    throw new Error('TODO');
+  createAsyncPullGauge(opts: MetricOpts): AsyncPullGauge<*> {
+    return this.createMetric(
+      opts,
+      (name, help, labels) => new AsyncPullGaugeImpl(name, help, labels),
+      (metric) => this.registry.registerAsync(metric)
+    );
   }
 
-  createSimpleAsyncPullGauge(opts: MetricOptsWithoutLabels): SimpleAsyncPullGauge  {
-    throw new Error('TODO');
+  createSimpleAsyncPullGauge(opts: MetricOptsWithoutLabels): SimpleAsyncPullGauge {
+    const { name, help } = opts;
+    return this.createAsyncPullGauge({ name, help }).withLabels({});
   }
 }
 

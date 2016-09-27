@@ -62,7 +62,7 @@ class UtilTests {
   testCreateLabelsHash() {
     const labelValues = ['foo', 'baz', 'bar'];
     const hash = createLabelsHash([], labelValues);
-    assert.equal(hash, 'foo,baz,bar')
+    assert.equal(hash, 'foo,baz,bar');
   }
 }
 

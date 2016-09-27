@@ -1,9 +1,6 @@
 /* @flow */
 
 import type {
-  Metric,
-  Sample,
-  SimpleCounter,
   AnyLabels,
   Child,
   MetricType

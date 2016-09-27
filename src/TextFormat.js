@@ -18,7 +18,7 @@ function labelsToString(labelNames: Array<string>, labelValues: Array<string>): 
     result += `${name}=${value}`;
 
     if (i !== labelNames.length - 1) {
-      result += ','
+      result += ',';
     }
   }
 

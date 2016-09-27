@@ -20,6 +20,13 @@
     "id-length": 0,
     "eqeqeq": [2, "allow-null"],
     "prefer-template": 0,
-    "space-before-function-paren": [2, "never"]
+    "space-before-function-paren": [2, "never"],
+    "flow-vars/define-flow-type": 1,
+    "flow-vars/use-flow-type": 1,
+    "no-underscore-dangle": 0,
+    "no-duplicate-imports": 0,
+    "import/no-duplicates": 0,
+    "no-unused-expressions": 0,
+    "no-param-reassign": ["error", { "props": false }]
   }
 }

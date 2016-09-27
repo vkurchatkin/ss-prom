@@ -6,10 +6,6 @@ import type { AsyncPullGauge as AsyncPullGaugeT } from '../types.js';
 import AsyncPullGauge from '../AsyncPullGauge.js';
 
 class AsyncPullGaugeTests {
-  testAsyncPullGaugeType() {
-    // TODO
-  }
-
   async testSimple() {
     const impl = new AsyncPullGauge('foo', 'Foo AsyncPullGauge', []);
     const g: AsyncPullGaugeT<{}> = impl;

@@ -24,7 +24,7 @@ class StandardCollector {
   startTime: number;
 
   constructor() {
-    this.startTime = Date.now() / 1000 - process.uptime();
+    this.startTime = (Date.now() / 1000) - process.uptime();
   }
 
   collect(): Array<Metric> {

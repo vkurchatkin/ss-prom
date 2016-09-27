@@ -45,54 +45,54 @@ export interface CollectorRegistry {
   unregisterAsync(collector: AsyncCollector): void;
 }
 
-/// Metric that has labeled children
+// Metric that has labeled children
 export interface ParentMetric<T, U> {
   withLabels(labels: T): U
 }
 
-/// Counter with no labels
+// Counter with no labels
 export interface SimpleCounter {
   inc(val?: number): void
 }
 
-/// Counter with labels
+// Counter with labels
 export interface Counter<T: AnyLabels> extends ParentMetric<T, SimpleCounter> {
   inc(labels: T, val?: number): void
 }
 
-/// Push gauge with no labels
+// Push gauge with no labels
 export interface SimpleGauge {
   set(value: number): void,
   inc(val?: number): void,
   dec(val?: number): void
 }
 
-/// Pull gauge with no labels
+// Pull gauge with no labels
 export interface SimplePullGauge {
   setCallback(cb: () => number): void,
   resetCallback(): void // set callback to null
 }
 
-/// Async pull gauge with no labels
+// Async pull gauge with no labels
 export interface SimpleAsyncPullGauge {
   setCallback(cb: () => Promise<number>): void,
   resetCallback(): void // set callback to null
 }
 
-/// Push gauge with children
+// Push gauge with children
 export interface Gauge<T> extends ParentMetric<T, SimpleGauge> {
   set(labels: T, value: number): void,
   inc(labels: T, val?: number): void,
   dec(labels: T, val?: number): void
 }
 
-/// Pull gauge with children
+// Pull gauge with children
 export interface PullGauge<T> extends ParentMetric<T, SimplePullGauge> {
   setCallback(labels: T, cb: () => number): void,
   resetAllCallbacks(): void
 }
 
-/// Async pull gauge with children
+// Async pull gauge with children
 export interface AsyncPullGauge<T> extends ParentMetric<T, SimpleAsyncPullGauge> {
   setCallback(labels: T, cb: () => Promise<number>): void,
   resetAllCallbacks(): void
@@ -114,7 +114,7 @@ export interface Format {
   encode(metrics: Array<Metric>): string
 }
 
-/// A factory to create and register metrics
+// A factory to create and register metrics
 export interface MetricsFactory {
   createCounter(opts: MetricOpts): Counter<*>,
   createSimpleCounter(opts: MetricOptsWithoutLabels): SimpleCounter,

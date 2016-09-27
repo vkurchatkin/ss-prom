@@ -6,10 +6,6 @@ import type { Gauge as GaugeT } from '../types.js';
 import Gauge from '../Gauge.js';
 
 class GaugeTests {
-  testGaugeType() {
-    // TODO
-  }
-
   testSimple() {
     const impl = new Gauge('foo', 'Foo gauge', []);
     const g: GaugeT<{}> = impl;

@@ -31,18 +31,17 @@ class AsyncPullGauge extends ParentMetric<SimpleAsyncPullGaugeImpl> {
       .map(child => child.obj.cb && [child, child.obj.cb()]);
 
     for (const t of children) {
-      if (!t) {
-        continue;
-      }
-      const [child, promise] = t;
-      const { labelValues, obj } = child;
+      if (t) {
+        const [child, promise] = t;
+        const { labelValues } = child;
 
-      samples.push({
-        name,
-        value: await promise,
-        labelNames,
-        labelValues
-      });
+        samples.push({
+          name,
+          value: await promise,
+          labelNames,
+          labelValues
+        });
+      }
     }
 
     return [

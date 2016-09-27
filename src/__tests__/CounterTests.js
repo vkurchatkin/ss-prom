@@ -6,8 +6,23 @@ import type { Counter as CounterT } from '../types.js';
 import Counter from '../Counter.js';
 
 class CounterTests {
-  testCounterType() {
-    // TODO
+  _testTypes() {
+    declare var c: CounterT<{
+      foo: 'bar' | 'baz',
+      xxx: number
+    }>;
+
+    // $ExpectError
+    c.inc();
+
+    // $ExpectError
+    c.inc({});
+
+    // $ExpectError
+    c.inc({ foo: 'bar' });
+
+    // $ExpectError
+    c.inc({ foo: 'foo', xxx: 1 });
   }
 
   testSimple() {
