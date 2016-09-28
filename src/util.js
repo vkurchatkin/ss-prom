@@ -50,7 +50,7 @@ export function numberToString(val: number): string {
   }
 
   if (isNaN(val)) {
-    return 'NaN';
+    return 'NaN'; // TODO or is it Nan?
   }
 
   return val.toString();

@@ -40,7 +40,7 @@ class TextFormat {
     for (const metric of metrics) {
       const { help, name, type, samples } = metric;
 
-      if (samples.length > 0){
+      if (samples.length > 0) {
         if (help) {
           str += `# HELP ${name} ${help}\n`;
         }

@@ -6,20 +6,24 @@ import type {
   CollectorRegistry,
   Counter,
   Gauge,
+  Histogram,
+  HistogramOpts,
+  HistogramOptsWithoutLabels,
   MetricOpts,
   MetricOptsWithoutLabels,
   PullGauge,
   SimpleAsyncPullGauge,
   SimpleCounter,
   SimpleGauge,
+  SimpleHistogram,
   SimplePullGauge
 } from './types.js';
 
 import AsyncPullGaugeImpl from './AsyncPullGauge.js';
 import CounterImpl from './Counter.js';
 import GaugeImpl from './Gauge.js';
+import HistogramImpl from './Histogram.js';
 import PullGaugeImpl from './PullGauge.js';
-import TextFormat from './TextFormat.js';
 
 class MetricsFactory {
   registeredNames: Set<string>;
@@ -104,6 +108,20 @@ class MetricsFactory {
   createSimpleAsyncPullGauge(opts: MetricOptsWithoutLabels): SimpleAsyncPullGauge {
     const { name, help } = opts;
     return this.createAsyncPullGauge({ name, help }).withLabels({});
+  }
+
+  createHistogram(opts: HistogramOpts): Histogram<*> {
+    const { buckets } = opts;
+    return this.createMetric(
+      opts,
+      (name, help, labels) => new HistogramImpl(name, help, labels, buckets),
+      (metric) => this.registry.register(metric)
+    );
+  }
+
+  createSimpleHistogram(opts: HistogramOptsWithoutLabels): SimpleHistogram {
+    const { name, help, buckets } = opts;
+    return this.createHistogram({ name, help, buckets }).withLabels({});
   }
 }
 

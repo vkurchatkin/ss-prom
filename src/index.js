@@ -8,11 +8,13 @@ import type {
   Counter,
   Format,
   Gauge,
+  Histogram,
   MetricsFactory,
   PullGauge,
   SimpleAsyncPullGauge,
   SimpleCounter,
   SimpleGauge,
+  SimpleHistogram,
   SimplePullGauge
 } from './types.js';
 
@@ -41,10 +43,12 @@ export type {
   Counter,
   Format,
   Gauge,
+  Histogram,
   MetricsFactory,
   PullGauge,
   SimpleAsyncPullGauge,
   SimpleCounter,
   SimpleGauge,
+  SimpleHistogram,
   SimplePullGauge
-}
+};

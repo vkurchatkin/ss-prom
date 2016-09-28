@@ -98,6 +98,14 @@ export interface AsyncPullGauge<T> extends ParentMetric<T, SimpleAsyncPullGauge>
   resetAllCallbacks(): void
 }
 
+export interface SimpleHistogram {
+  observe(val: number): void
+}
+
+export interface Histogram<T> extends ParentMetric<T, SimpleHistogram> {
+  observe(labels: T, val: number): void
+}
+
 export type MetricOptsWithoutLabels = {
   name: string,
   help: string
@@ -108,6 +116,9 @@ export type MetricOpts = {
   help: string,
   labels?: Array<string>
 };
+
+export type HistogramOpts = MetricOpts & { buckets: Array<number> };
+export type HistogramOptsWithoutLabels = MetricOptsWithoutLabels & { buckets: Array<number> };
 
 export interface Format {
   mimeType: string,
@@ -129,4 +140,7 @@ export interface MetricsFactory {
 
   createAsyncPullGauge(opts: MetricOpts): AsyncPullGauge<*>,
   createSimpleAsyncPullGauge(opts: MetricOptsWithoutLabels): SimpleAsyncPullGauge,
+
+  createHistogram(opts: HistogramOpts): Histogram<*>,
+  createSimpleHistogram(opts: HistogramOptsWithoutLabels): SimpleHistogram
 }

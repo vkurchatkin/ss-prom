@@ -10,6 +10,13 @@ const counter = metrics.createCounter({
   labels: ['code', 'method', 'handler']
 });
 
+const histogram = metrics.createHistogram({
+  name: 'http_request_duration_seconds',
+  help: ' A histogram of the request duration.',
+  buckets: [0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10],
+  labels: ['code', 'method', 'handler']
+})
+
 const format = prom.createTextFormat();
 
 function targetHandler() {
@@ -66,11 +73,13 @@ const handlers = {
 
 http.createServer((req, res) => {
   let handler = handlers[req.url] || notFoundHandler;
+  const start = Date.now();
   handler()
     .then(r => {
       res.writeHead(r.code, r.headers);
       res.end(r.body);
       counter.inc({ code: r.code, handler: r.name, method: req.method });
+      histogram.observe({ code: r.code, handler: r.name, method: req.method }, (Date.now() - start) / 1000)
     })
     .catch(err => {
       res.writeHead(500);
