@@ -53,7 +53,7 @@ function resize(size) {
 
   if (delta > 0) {
     for (let i = 0; i < delta; i++) {
-      const c = new Client(50 + Math.random() * 50);
+      const c = new Client(30 + Math.random() * 100);
       c.run();
       clients.push(c);
     }
@@ -66,8 +66,7 @@ function resize(size) {
 }
 
 function run() {
-  resize(Math.floor(10 + Math.random() * 10));
-  console.log(`Running ${clients.length} clients`);
+  resize(Math.floor(20 + Math.random() * 40));
 }
 
 setInterval(run, 1e4);
