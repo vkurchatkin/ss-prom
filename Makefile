@@ -99,4 +99,10 @@ dist: compile
 publish:
 	cd dist && npm publish
 
-.PHONY: clean test lint flow compile compile-test compile-cover all cover run.% check-coverage dist publish
+deps:
+	npm install
+	cd tools && npm install
+
+ci: flow lint test check-coverage compile
+
+.PHONY: clean test lint flow compile compile-test compile-cover all cover run.% check-coverage dist publish deps ci
