@@ -4,16 +4,18 @@
     "babel-eslint": "6.1.2",
     "babel-plugin-external-helpers-2": "6.3.13",
     "babel-plugin-transform-async-to-generator": "6.16.0",
+    "babel-plugin-transform-es2015-destructuring": "6.16.0",
     "babel-plugin-transform-es2015-modules-commonjs": "6.16.0",
+    "babel-plugin-transform-es2015-parameters": "6.16.0",
     "babel-plugin-transform-flow-strip-types": "6.14.0",
     "eslint": "3.3.1",
     "eslint-config-airbnb": "10.0.1",
+    "eslint-plugin-flow-vars": "0.5.0",
+    "eslint-plugin-import": "1.14.0",
+    "eslint-plugin-jsx-a11y": "2.2.0",
     "eslint-plugin-react": "6.1.2",
     "flow-bin": "0.31.1",
     "istanbul": "0.4.5",
-    "mocha": "3.0.2",
-    "eslint-plugin-import": "1.14.0",
-    "eslint-plugin-jsx-a11y": "2.2.0",
-    "eslint-plugin-flow-vars": "0.5.0"
+    "mocha": "3.0.2"
   }
 }
