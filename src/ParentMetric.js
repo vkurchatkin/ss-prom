@@ -57,6 +57,30 @@ class ParentMetric<T> {
     this.children.push(child);
     return obj;
   }
+
+  remove(labels: AnyLabels): void {
+    const labelValues = createLabelValues(this.labelNames, labels);
+    const hash = createLabelsHash(this.labelNames, labelValues);
+
+    const child = this.childrenByHash[hash];
+
+    if (!child) {
+      return;
+    }
+
+    delete this.childrenByHash[hash];
+
+    const idx = this.children.indexOf(child);
+
+    if (idx !== -1) {
+      this.children.splice(idx, 1);
+    }
+  }
+
+  clear(): void {
+    this.children = [];
+    this.childrenByHash = {};
+  }
 }
 
 export default ParentMetric;

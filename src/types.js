@@ -47,7 +47,9 @@ export interface CollectorRegistry extends AsyncCollector {
 
 // Metric that has labeled children
 export interface ParentMetric<T, U> {
-  withLabels(labels: T): U
+  withLabels(labels: T): U,
+  remove(labels: T): void,
+  clear(): void
 }
 
 // Counter with no labels
